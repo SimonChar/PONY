@@ -1,0 +1,66 @@
+//This code has been used from pony-lecture shown in ipr0gram
+
+
+//An actor can send messages to itself or to other actors. 
+//create new actors
+//change its own state
+
+actor PingPong
+  
+  var _pings: U32 = 0
+  var _pongs: U32 = 0
+  let _partner: PingPong  //this is an instance of the actor 
+  let _out: OutStream
+  let _print: Bool
+ 
+ new create(pings: U64, print: Bool, out: OutStream) =>   //constructors have names 
+  "Here we have our own constructor, which creates its own partner"
+  _partner = PingPong.partner(this, pings, print, out) //creates a new actor  
+  _out = out
+  _print = print
+ 
+ //create a loop for creating pings 
+ for i in Range(0, pings) do
+  _partner.ping()
+ end
+ 
+ 
+ new partner(that: PingPong, pings: U64, print: Bool, out: OutStream) =>
+ "This creates a new PingPong, with a partner supplied"
+ _partner = that
+ _print = print
+ _out = out
+ 
+ //create a loop for creating pings 
+ for i in Range(0, pings) do
+  _partner.ping()
+ end
+ 
+ be ping() =>  //be behaviour is like a method
+ "A behaviour: we've received a pong"
+ _pings = _pings +1 //this will change our state
+ _partner.pong()
+ 
+ //check if ping in order to print to screen
+ if _print then _out.write(ANSI.green() + "Ping..." + ANSI.reset()) end
+ 
+ 
+ be pong() =>
+ "A behaviour: we've received a pong."
+ _pongs = _pongs + 1 //change our state
+ 
+ //check if pong in order to print to screen
+ if _print then _out.write(ANSI.red() + "Pong!" + ANSI.reset()) end
+ 
+ 
+//Main program 
+actor Main 
+  new create(env: Env) => //A Main actor is always passed an environment.
+    var actors = U64(2)
+    var pings = U64(5)
+    var print =false
+  
+  for i in Range(0, actors/2) do 
+  
+  PingPong(pings, print, env.out) //The default constructor is create()
+  end
