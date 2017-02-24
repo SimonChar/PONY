@@ -9,21 +9,17 @@ actor PingPong
   let _out: OutStream
   
  new create(num: U32, out: OutStream) =>   //constructors have names 
-  "Here we have our own constructor, which creates its own partner"
- 
+  //Here we have our own constructor, which creates its own partner
   _num= n um
   _out = out
   
  be ping(partner: PingPong) =>  //be behaviour is like a method
  //A behaviour: we've received a pong
  if _num > 0 then
- 
  //check if ping in order to print to screen
  _out.write("Ping...\n")
  partner.pong(this)
  _num = _num - 1
- 
- 
  
  be pong(partner: PingPong) =>
  //A behaviour: we've received a pong.
