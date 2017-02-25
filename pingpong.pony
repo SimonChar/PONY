@@ -9,7 +9,7 @@ actor PingPong
   
  new create(num: U32, out: OutStream) =>   //constructors have names 
   //Here we have our own constructor, which creates its own partner
-  _num= n um
+  _num= num
   _out = out
   
  be ping(partner: PingPong) =>  //be behaviour is like a method
