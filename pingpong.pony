@@ -19,6 +19,7 @@ actor PingPong
  _out.write("Ping...\n")
  partner.pong(this)
  _num = _num - 1
+ end
  
  be pong(partner: PingPong) =>
  //A behaviour: we've received a pong.
