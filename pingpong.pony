@@ -17,8 +17,8 @@ actor PingPong
  if _num > 0 then
  //check if ping in order to print to screen
  _out.write("Ping...\n")
- partner.pong(this)
  _num = _num - 1
+ partner.pong(this)
  end
  
  be pong(partner: PingPong) =>
